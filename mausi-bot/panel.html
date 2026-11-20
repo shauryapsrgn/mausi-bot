@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mausi ji Control Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout idea: a shaadi-tent control room. Plum canvas, marigold and rani-pink accents, one column of panels. */
+  --bg: #1d0f24;
+  --panel: #2a1634;
+  --line: #4a2c57;
+  --ink: #f6e9f2;
+  --muted: #c3a8bd;
+  --marigold: #ffb01f;
+  --rani: #ff3d8b;
+  --display: "Rozha One", "Georgia", serif;
+  --body: "Mukta", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 17px/1.55 var(--body); }
+.wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; display: grid; gap: 22px; }
+header { display: grid; gap: 10px; padding: 8px 0 6px; border-bottom: 2px dashed var(--line); }
+.eyebrow { font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--marigold); }
+h1 { font: 400 clamp(36px, 6vw, 58px)/1.02 var(--display); margin: 0; text-wrap: balance; }
+h1 span { color: var(--rani); }
+.sub { color: var(--muted); margin: 0; max-width: 62ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip { font: 500 14px/1 var(--mono); padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.chip b { color: var(--marigold); }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+h2 { font: 400 28px/1.1 var(--display); margin: 0; color: var(--marigold); text-wrap: balance; }
+h2 small { font: 500 14px var(--body); color: var(--muted); margin-left: 8px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; flex-wrap: wrap; }
+.seg button { font: 500 15px var(--body); color: var(--muted); background: transparent; border: 0; padding: 8px 14px; cursor: pointer; border-right: 1px solid var(--line); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--rani); color: #fff; }
+.seg button:focus-visible, input:focus-visible, .copy:focus-visible { outline: 2px solid var(--marigold); outline-offset: 2px; }
+input[type="search"] { flex: 1 1 220px; font: 16px var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; }
+input[type="search"]::placeholder { color: var(--muted); }
+.cmds { display: grid; gap: 8px; }
+.cmd { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 12px 14px; border: 1px solid var(--line); border-left: 4px solid var(--tier); border-radius: 10px; background: color-mix(in srgb, var(--bg) 55%, var(--panel)); }
+.cmd code { font: 600 15px var(--mono); color: var(--ink); overflow-wrap: anywhere; }
+.cmd code i { font-style: normal; color: var(--muted); font-weight: 400; }
+.cmd p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 15px; }
+.tier { font: 600 12px/1 var(--mono); padding: 5px 8px; border-radius: 6px; color: var(--bg); background: var(--tier); white-space: nowrap; }
+.empty { color: var(--muted); font-style: italic; }
+.copy { font: 500 13px var(--mono); color: var(--marigold); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; cursor: pointer; justify-self: start; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 10px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; align-items: start; }
+ol.steps li::before { content: counter(s); font: 600 14px/30px var(--mono); text-align: center; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--marigold); color: var(--marigold); }
+ol.steps label { cursor: pointer; display: flex; gap: 10px; align-items: flex-start; }
+ol.steps input { margin-top: 6px; accent-color: var(--rani); width: 17px; height: 17px; flex: none; }
+ol.steps input:checked + span { color: var(--muted); text-decoration: line-through; }
+ol.steps code, .ph code, td code { font: 14px var(--mono); color: var(--marigold); }
+.ladder { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ladder li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--c, #99aab5); }
+.ladder .what { font: 500 13px var(--mono); color: var(--muted); text-align: right; }
+.ladder li.bot { border: 1px dashed var(--marigold); background: color-mix(in srgb, var(--marigold) 10%, transparent); }
+.ladder li.group { border: 0; padding: 4px 2px 0; color: var(--marigold); font: 600 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; grid-template-columns: 1fr; }
+.ph { display: grid; gap: 8px; margin: 0; }
+.ph div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px; }
+.ph dt, .ph dd { margin: 0; }
+.ph dd { color: var(--muted); }
+.presets { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.preset { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 6px; align-content: start; }
+.preset h3 { margin: 0; font: 600 16px var(--body); }
+.preset .meta { font: 500 12px var(--mono); color: var(--rani); }
+.preset ul { margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); display: grid; gap: 2px; }
+.note { font-size: 15px; color: var(--muted); margin: 0; }
+.note strong { color: var(--ink); }
+@media (max-width: 520px) {
+  .ph div { grid-template-columns: 1fr; gap: 0; }
+  .ladder .what { display: none; }
+  .ladder li { grid-template-columns: 14px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">mera mirchidaar bhosada · house bot</div>
+    <h1>Mausi ji <span>Control Room</span></h1>
+    <p class="sub">Everything Mausi ji can do, who is allowed to do it by default (change it on the dashboard's Command access page), and the order your roles need to sit in. Inside Discord, <code>/panel</code> shows the live settings and <code>/help</code> shows each person only the commands they can use.</p>
+    <div class="chips">
+      <span class="chip"><b id="n-cmds">27</b> slash commands</span>
+      <span class="chip"><b>5</b> reaction-role presets</span>
+      <span class="chip">web <b>dashboard</b> at localhost:8080</span>
+      <span class="chip"><b>3</b> mod tiers</span>
+      <span class="chip">timeouts: helpers <b>1h</b>, mods <b>28d</b></span>
+    </div>
+  </header>
+
+  <section aria-labelledby="who">
+    <h2 id="who">Kaun kya kar sakta hai <small>pick a tier to see what it unlocks</small></h2>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Tier">
+        <button type="button" id="t0" data-level="0" aria-pressed="false">sab log</button>
+        <button type="button" id="t1" data-level="1" aria-pressed="false">munshi (helpers)</button>
+        <button type="button" id="t2" data-level="2" aria-pressed="false">aunty (mods)</button>
+        <button type="button" id="t3" data-level="3" aria-pressed="true">co-admins</button>
+      </div>
+      <input type="search" id="q" placeholder="Search: ban, welcome, roles…" aria-label="Search commands">
+    </div>
+    <div class="cmds" id="cmds"></div>
+  </section>
+
+  <div class="grid2">
+    <section aria-labelledby="setup">
+      <h2 id="setup">Pehli baar setup</h2>
+      <ol class="steps" id="steps">
+        <li><label><input type="checkbox" id="s1"><span>Create the app in the Discord Developer Portal, turn on <strong>Server Members Intent</strong>, copy the token into <code>.env</code>.</span></label></li>
+        <li><label><input type="checkbox" id="s2"><span>Invite Mausi ji with the link from OAuth2 → URL Generator (<code>bot</code> + <code>applications.commands</code>).</span></label></li>
+        <li><label><input type="checkbox" id="s3"><span>Drag Mausi ji's role just below <strong>ranivati hijdavati</strong>, so it can hand out every role below it.</span></label></li>
+        <li><label><input type="checkbox" id="s4"><span>Run <code>python main.py</code> (or deploy to Railway) and wait for "Mausi ji aa gayi".</span></label></li>
+        <li><label><input type="checkbox" id="s5"><span><code>/setup quickstart</code> sets the tiers, the auto-role and the welcome channel in one go.</span></label></li>
+        <li><label><input type="checkbox" id="s6"><span><code>/setup logchannel</code> pointing at a private mods-only channel.</span></label></li>
+        <li><label><input type="checkbox" id="s7"><span>Post the panels in #mata-ke-roles: <code>pronouns</code>, <code>vibes</code>, <code>identity</code> (with <code>create_missing</code>), <code>pings</code> (with <code>create_missing</code>).</span></label></li>
+        <li><label><input type="checkbox" id="s8"><span><code>/welcome test</code>, tweak with <code>/welcome message</code>, then open <code>/panel</code> and check there are no ⚠️ permission warnings.</span></label></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="ladder">
+      <h2 id="ladder">Role ladder <small>top to bottom</small></h2>
+      <ul class="ladder">
+        <li class="group">Darbar</li>
+        <li><span class="dot" style="--c:#9b59b6"></span><span>rajmata kinnerdevi</span><span class="what">Administrator</span></li>
+        <li><span class="dot" style="--c:#e74c3c"></span><span>ranivati hijdavati</span><span class="what">co-admin</span></li>
+        <li class="bot"><span class="dot" style="--c:#ffb01f"></span><span>Mausi ji (bot)</span><span class="what">sits here</span></li>
+        <li><span class="dot" style="--c:#e67e22"></span><span>lathi-charge wali aunty</span><span class="what">mods</span></li>
+        <li><span class="dot" style="--c:#c27c0e"></span><span>rishwatkhor munshi</span><span class="what">helpers</span></li>
+        <li class="group">Khaas log</li>
+        <li><span class="dot" style="--c:#1abc9c"></span><span>rajmata ki queens</span><span class="what">inner circle</span></li>
+        <li><span class="dot" style="--c:#e91e63"></span><span>vip (vahiyad ichadari panoti)</span><span class="what">guests</span></li>
+        <li><span class="dot" style="--c:#f1c40f"></span><span>bhosadavati</span><span class="what">trusted regulars</span></li>
+        <li class="group">Vibe roles (colours show on names)</li>
+        <li><span class="dot" style="--c:#ad1457"></span><span>whatsapp university ki VC … nimbu-mirchi on the thar</span><span class="what">9 roles</span></li>
+        <li class="group">Base</li>
+        <li><span class="dot" style="--c:#2ecc71"></span><span>hijdavati ki hijdiyaan</span><span class="what">members</span></li>
+        <li><span class="dot"></span><span>pronoun, identity, ally and ping roles</span><span class="what">no colour</span></li>
+        <li><span class="dot" style="--c:#95a5a6"></span><span>abhi tak shareef</span><span class="what">auto-role</span></li>
+      </ul>
+      <p class="note">A name shows the colour of the <strong>highest coloured role</strong> that person has. The vibe roles sit above the member role so people's chosen colour shows up.</p>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section aria-labelledby="ph">
+      <h2 id="ph">Welcome placeholders</h2>
+      <dl class="ph">
+        <div><dt><code>{user}</code></dt><dd>pings the new member</dd></div>
+        <div><dt><code>{name}</code></dt><dd>their display name, no ping</dd></div>
+        <div><dt><code>{server}</code></dt><dd>mera mirchidaar bhosada</dd></div>
+        <div><dt><code>{count}</code></dt><dd>member number, e.g. 42</dd></div>
+        <div><dt><code>{#samvidhaan}</code></dt><dd>any channel name in braces becomes a clickable link</dd></div>
+      </dl>
+      <button type="button" class="copy" id="copy-msg">Copy the default welcome text</button>
+      <p class="note" id="copy-status" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="pr">
+      <h2 id="pr">Reaction-role presets</h2>
+      <div class="presets" id="presets"></div>
+      <p class="note">Edit <code>presets.json</code> to change these, restart the bot, then post the panel again.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+const TIERS = [
+  { name: "sab log", color: "#c3a8bd" },
+  { name: "helpers+", color: "#c27c0e" },
+  { name: "mods+", color: "#e67e22" },
+  { name: "co-admins", color: "#ff3d8b" }
+];
+const COMMANDS = [
+  [0, "/help", "", "Shows only the commands you're allowed to use."],
+  [0, "/kamra naam | limit | lock", "", "Rename, cap or lock the voice room you made by joining ➕ naya kamra banao."],
+  [1, "/warn", "member reason", "Saves a warning to their record and DMs them."],
+  [1, "/warnings", "member", "Their last 15 warnings, with date and who gave each one."],
+  [1, "/timeout", "member duration [reason]", "10m, 2h, 1d… Helpers max 1h, mods and up max 28d."],
+  [1, "/untimeout", "member", "Lifts a timeout early."],
+  [2, "/kick", "member [reason]", "Removes them from the server. They can rejoin with an invite."],
+  [2, "/purge", "amount [only_from]", "Deletes the last 1 to 100 messages here, optionally from one person."],
+  [2, "/slowmode", "seconds", "0 turns it off. Up to 6 hours."],
+  [2, "/lock", "", "@everyone can't type in this channel until /unlock."],
+  [2, "/unlock", "", "Reopens a locked channel."],
+  [2, "/clearwarnings", "member", "Wipes their warning record."],
+  [2, "/embed create | edit", "[channel] / message_link", "Make a fancy embed with a preview, or edit one Mausi ji posted. Full embed maker with templates is in the dashboard."],
+  [2, "/ban", "user [reason] [delete_messages]", "Permanent. Works on people who already left. Can delete up to 7 days of their messages."],
+  [2, "/unban", "user_id [reason]", "Copy the ID from the mod log."],
+  [3, "/panel", "", "Live control panel: welcome on/off, DM on/off, test welcome, tiers, missing permissions."],
+  [3, "/setup quickstart", "", "Matches aunty, munshi and ranivati to tiers, sets abhi tak shareef as auto-role, finds the intro channel."],
+  [3, "/setup tier", "add|remove tier role", "Gives or removes a role's helper, mod or admin powers in the bot."],
+  [3, "/setup logchannel", "channel", "Where every moderation action is logged."],
+  [3, "/welcome channel", "channel", "Where welcome (and goodbye) posts go."],
+  [3, "/welcome message", "which", "Opens a box to edit the welcome post, welcome DM or goodbye post."],
+  [3, "/welcome toggle", "what on", "Turns the welcome post, DM or goodbye post on or off."],
+  [3, "/welcome autorole", "add|remove role", "Roles every new member gets automatically."],
+  [3, "/welcome test", "", "Previews the welcome post using you as the new member."],
+  [3, "/reactionroles create", "preset channel [create_missing]", "Posts a ready-made panel and adds the reactions."],
+  [3, "/reactionroles add", "message_id emoji role", "Adds one more emoji to a panel the bot posted."],
+  [3, "/reactionroles remove", "message_id emoji", "Stops one emoji from giving its role."],
+  [3, "/reactionroles list", "", "Every panel, where it is and how many roles it has."],
+  [3, "/reactionroles forget", "message_id", "The panel stops working. Delete the message yourself if you want it gone."],
+  [3, "/autoreact add | remove | list | toggle", "word emojis", "Words Mausi ji reacts to (slay 💅, mother 👑, chai ☕, drama 🍿…). Whole words only, 20s cooldown per channel."],
+  [3, "/starboard setup | toggle", "channel [threshold] [emoji]", "Messages that get 3 ⭐ are framed in #tareef-ki-deewar."],
+  [3, "/voicerooms setup | toggle", "lobby [category]", "Join the lobby, get your own temporary voice room."],
+  [3, "/setup channels", "", "Creates #mausi-ke-commands, #tareef-ki-deewar, #drag-ka-dangal, #sher-o-shayari and the ➕ naya kamra banao lobby."],
+  [3, "/setup sortroles", "", "Puts every role below Mausi ji in the right order (edit the order in the dashboard)."]
+];
+const PRESETS = [
+  { key: "pronouns", title: "Pronouns", pick: "pick any", items: ["💙 he/him (uncle mat bolna)", "🌸 she/her (didi mat bolna)", "🌈 they/them (beta mat bolna)", "✨ any/all (jo marzi, bas izzat se)", "❓ pronouns: puch le na"] },
+  { key: "vibes", title: "Bhosada vibes", pick: "only one", items: ["📱 whatsapp university ki VC", "👀 padosan ki CCTV", "💍 rishte wali aunty ka nightmare", "👋 teen baar zoom-in wala thappad", "👡 mummy ka chappal launcher", "🍛 shaadi mein biryani chor", "🐍 uncle ka naagin dance", "📚 sharma ji ke bete ki dushman", "🍋 nimbu-mirchi on the thar"] },
+  { key: "identity", title: "Identity (optional)", pick: "pick any · creates roles", items: ["🌈 gay", "🧡 lesbian", "💜 bi", "💛 pan", "🖤 ace", "💚 aro", "🦋 trans", "💫 non-binary", "🌊 genderfluid", "🔮 queer", "🤔 questioning", "🤝 seedha par samajhdaar (ally)"] },
+  { key: "colours", title: "Rang (name colours)", pick: "only one", items: ["🌸 gulabi chunni", "💗 rani pink", "🔴 sindoor", "🟠 kesar", "🟡 haldi", "🌿 mehendi", "🟢 pista", "🐬 firozi", "🔵 neel", "🟣 jamuni", "☕ chai", "🥈 chandi"] },
+  { key: "interests", title: "Pings aur shauk", pick: "pick any · creates roles", items: ["🥁 chat revive ka dhol", "🎧 vc mein aa jao", "📢 announcement ping", "🎤 sangeet night ping", "🎶 ghar ka DJ", "🎬 picture abhi baaki hai", "🐈 billi ki maasi", "👠 drag race ki deewani", "🖋️ shayar-e-darbar", "🎮 gamer behen", "📚 padhai ka kaidi"] }
+];
+const WELCOME = "Aayi hai {user}! 💅 {server} mein swagat hai, tu member number {count} hai.\n\nPehle {#samvidhaan} padh le, phir {#mata-ke-roles} mein apne roles utha, aur {#aao-baitho-intro-do} mein apna parichay de. Yahan sab apne pronouns ke saath, apni poori izzat ke saath hain. Darbar mein dil se swagat.";
+
+let level = 3;
+const list = document.getElementById("cmds");
+const q = document.getElementById("q");
+
+function store(get, key, val) {
+  try { return get ? localStorage.getItem(key) : localStorage.setItem(key, val); } catch (e) { return null; }
+}
+
+function draw() {
+  const term = q.value.trim().toLowerCase();
+  const rows = COMMANDS.filter(([t, n, a, d]) => t <= level && (!term || (n + " " + a + " " + d).toLowerCase().includes(term)));
+  list.innerHTML = rows.length ? rows.map(([t, n, a, d]) =>
+    `<div class="cmd" style="--tier:${TIERS[t].color}"><code>${n} <i>${a}</i></code><span class="tier">${TIERS[t].name}</span><p>${d}</p></div>`
+  ).join("") : `<p class="empty">Is tier ke liye "${term.replace(/[<>&]/g, "")}" se match karne wala koi command nahi.</p>`;
+}
+
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  level = Number(b.dataset.level);
+  document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  store(false, "mausi-tier", String(level));
+  draw();
+}));
+q.addEventListener("input", draw);
+
+const saved = store(true, "mausi-tier");
+if (saved !== null && /^[0-3]$/.test(saved)) {
+  level = Number(saved);
+  document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", String(Number(x.dataset.level) === level)));
+}
+draw();
+
+document.querySelectorAll("#steps input").forEach(box => {
+  if (store(true, "mausi-" + box.id) === "1") box.checked = true;
+  box.addEventListener("change", () => store(false, "mausi-" + box.id, box.checked ? "1" : "0"));
+});
+
+document.getElementById("presets").innerHTML = PRESETS.map(p =>
+  `<div class="preset"><h3>${p.title}</h3><span class="meta">${p.key} · ${p.pick}</span><ul>${p.items.map(i => `<li>${i}</li>`).join("")}</ul></div>`
+).join("");
+
+document.getElementById("copy-msg").addEventListener("click", async () => {
+  const status = document.getElementById("copy-status");
+  try { await navigator.clipboard.writeText(WELCOME); status.textContent = "Copied. Paste it into /welcome message."; }
+  catch (e) { status.textContent = "Copy was blocked here. The same text is the bot's default, so you only need to change it if you want to."; }
+});
+document.getElementById("n-cmds").textContent = COMMANDS.length;
+</script>
+</body>
+</html>

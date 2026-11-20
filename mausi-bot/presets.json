@@ -1,0 +1,247 @@
+{
+  "pronouns": {
+    "title": "🗣️ Pronouns utha lo",
+    "description": "Batao kaise bulaayein. Ek se zyada bhi le sakte ho.",
+    "exclusive": false,
+    "roles": [
+      {
+        "emoji": "💙",
+        "role": "he/him (uncle mat bolna)"
+      },
+      {
+        "emoji": "🌸",
+        "role": "she/her (didi mat bolna)"
+      },
+      {
+        "emoji": "🌈",
+        "role": "they/them (beta mat bolna)"
+      },
+      {
+        "emoji": "✨",
+        "role": "any/all (jo marzi, bas izzat se)"
+      },
+      {
+        "emoji": "❓",
+        "role": "pronouns: puch le na"
+      }
+    ]
+  },
+  "vibes": {
+    "title": "💅 Apna bhosada vibe chuno",
+    "description": "Tera naam kis rang mein chamkega? Sirf ek chalega, toh soch samajh ke.",
+    "exclusive": true,
+    "roles": [
+      {
+        "emoji": "📱",
+        "role": "whatsapp university ki VC"
+      },
+      {
+        "emoji": "👀",
+        "role": "padosan ki CCTV"
+      },
+      {
+        "emoji": "💍",
+        "role": "rishte wali aunty ka nightmare"
+      },
+      {
+        "emoji": "👋",
+        "role": "teen baar zoom-in wala thappad"
+      },
+      {
+        "emoji": "👡",
+        "role": "mummy ka chappal launcher"
+      },
+      {
+        "emoji": "🍛",
+        "role": "shaadi mein biryani chor"
+      },
+      {
+        "emoji": "🐍",
+        "role": "uncle ka naagin dance"
+      },
+      {
+        "emoji": "📚",
+        "role": "sharma ji ke bete ki dushman"
+      },
+      {
+        "emoji": "🍋",
+        "role": "nimbu-mirchi on the thar"
+      }
+    ]
+  },
+  "identity": {
+    "title": "🏳️‍🌈 Identity (bilkul optional)",
+    "description": "Sirf tab lo jab comfortable ho. Koi pressure nahi, koi sawaal nahi. Allies bhi welcome hain.",
+    "exclusive": false,
+    "roles": [
+      {
+        "emoji": "🌈",
+        "role": "gay"
+      },
+      {
+        "emoji": "🧡",
+        "role": "lesbian"
+      },
+      {
+        "emoji": "💜",
+        "role": "bi"
+      },
+      {
+        "emoji": "💛",
+        "role": "pan"
+      },
+      {
+        "emoji": "🖤",
+        "role": "ace"
+      },
+      {
+        "emoji": "💚",
+        "role": "aro"
+      },
+      {
+        "emoji": "🦋",
+        "role": "trans"
+      },
+      {
+        "emoji": "💫",
+        "role": "non-binary"
+      },
+      {
+        "emoji": "🌊",
+        "role": "genderfluid"
+      },
+      {
+        "emoji": "🔮",
+        "role": "queer"
+      },
+      {
+        "emoji": "🤔",
+        "role": "questioning"
+      },
+      {
+        "emoji": "🤝",
+        "role": "seedha par samajhdaar (ally)"
+      }
+    ]
+  },
+  "colours": {
+    "title": "🎨 Apna rang chuno",
+    "description": "Tera naam is rang mein chamkega. Sirf ek, toh dil se chuno.",
+    "exclusive": true,
+    "roles": [
+      {
+        "emoji": "🌸",
+        "role": "gulabi chunni",
+        "color": "#F7A8C9"
+      },
+      {
+        "emoji": "💗",
+        "role": "rani pink",
+        "color": "#E0457B"
+      },
+      {
+        "emoji": "🔴",
+        "role": "sindoor",
+        "color": "#D7263D"
+      },
+      {
+        "emoji": "🟠",
+        "role": "kesar",
+        "color": "#F6A04D"
+      },
+      {
+        "emoji": "🟡",
+        "role": "haldi",
+        "color": "#F2D16B"
+      },
+      {
+        "emoji": "🌿",
+        "role": "mehendi",
+        "color": "#8DB36A"
+      },
+      {
+        "emoji": "🟢",
+        "role": "pista",
+        "color": "#BFE3B4"
+      },
+      {
+        "emoji": "🐬",
+        "role": "firozi",
+        "color": "#5CC8C2"
+      },
+      {
+        "emoji": "🔵",
+        "role": "neel",
+        "color": "#6C8EF5"
+      },
+      {
+        "emoji": "🟣",
+        "role": "jamuni",
+        "color": "#A77BDB"
+      },
+      {
+        "emoji": "☕",
+        "role": "chai",
+        "color": "#B98563"
+      },
+      {
+        "emoji": "🥈",
+        "role": "chandi",
+        "color": "#C9CED6"
+      }
+    ]
+  },
+  "interests": {
+    "title": "🔔 Pings aur shauk",
+    "description": "Kab bulaayein aur kis cheez ke deewane ho? Jitne chahiye utha lo.",
+    "exclusive": false,
+    "roles": [
+      {
+        "emoji": "🥁",
+        "role": "chat revive ka dhol",
+        "note": "chat mari padi ho toh"
+      },
+      {
+        "emoji": "🎧",
+        "role": "vc mein aa jao",
+        "note": "voice pe bulana ho toh"
+      },
+      {
+        "emoji": "📢",
+        "role": "announcement ping"
+      },
+      {
+        "emoji": "🎤",
+        "role": "sangeet night ping"
+      },
+      {
+        "emoji": "🎶",
+        "role": "ghar ka DJ"
+      },
+      {
+        "emoji": "🎬",
+        "role": "picture abhi baaki hai"
+      },
+      {
+        "emoji": "🐈",
+        "role": "billi ki maasi"
+      },
+      {
+        "emoji": "👠",
+        "role": "drag race ki deewani"
+      },
+      {
+        "emoji": "🖋️",
+        "role": "shayar-e-darbar"
+      },
+      {
+        "emoji": "🎮",
+        "role": "gamer behen"
+      },
+      {
+        "emoji": "📚",
+        "role": "padhai ka kaidi"
+      }
+    ]
+  }
+}
